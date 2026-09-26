@@ -1,5 +1,5 @@
-import Slideshow from "@/components/Slideshow";
+import ScrollGallery from "@/components/ScrollGallery";
 
 export default function Home() {
-  return <Slideshow />;
+  return <ScrollGallery />;
 }

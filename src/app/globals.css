@@ -12,18 +12,34 @@
   --color-muted: #a29e97;
   --color-accent: #16130f;
   --font-recital: "RecitalTrial-Book", ui-serif, Georgia, serif;
+
+  /* One size for the whole site: everything is keyed off text-sm.
+     Change --text-sm to scale it all at once. */
+  --text-sm: 0.8125rem;
+  --text-base: var(--text-sm);
+  --text-lg: var(--text-sm);
+  --text-3xl: var(--text-sm);
+  --text-4xl: var(--text-sm);
+  --text-5xl: var(--text-sm);
+
+  --text-sm--line-height: 1.3;
+  --text-base--line-height: 1.3;
+  --text-lg--line-height: 1.3;
+  --text-3xl--line-height: 1.3;
+  --text-4xl--line-height: 1.3;
+  --text-5xl--line-height: 1.3;
 }
 
 @layer base {
   html {
     font-size: calc(100vw / 390 * 16);
 
-    /* Desktop fluid : 1rem = 16px à 1440px */
+    /* Fluid desktop: 1rem = 16px at 1440px */
     @media (min-width: 1024px) {
       font-size: calc(100vw / 1440 * 16);
     }
 
-    /* Freeze au-delà de 1920px */
+    /* Freeze beyond 1920px */
     @media (min-width: 1920px) {
       font-size: 17.778px;
     }
@@ -41,7 +57,8 @@
     background: var(--color-background);
     font-family: var(--font-recital);
     font-weight: 400;
-    line-height: 1.2;
+    font-size: var(--text-sm);
+    line-height: 1.3;
     letter-spacing: 0.01em;
     overscroll-behavior: none;
     -webkit-font-smoothing: antialiased;
@@ -85,4 +102,12 @@
 
 .animate-fade-in {
   animation: museum-fade-in 0.6s ease-out both;
+}
+
+/* SplitText line-reveal: give the masked line box just enough room for
+   descenders (g, y, p) without adding any net vertical spacing between
+   lines — the negative margin cancels the padding. */
+.reveal-line {
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
 }

@@ -1,3 +1,5 @@
+import { translateMovement } from "@/lib/i18n-data";
+
 const API_URL = "https://api-museum.vercel.app/objects";
 
 export function slugify(value = "") {
@@ -32,14 +34,17 @@ export async function getArtists() {
   const map = new Map();
 
   for (const object of objects) {
-    const name = object.artist || "Inconnu";
+    const name = object.artist || "Unknown";
     const slug = slugify(name);
 
     if (!map.has(slug)) {
       map.set(slug, { name, slug, works: [] });
     }
 
-    map.get(slug).works.push(object);
+    // Movement names come from the API in French — surface them in English.
+    map
+      .get(slug)
+      .works.push({ ...object, movement: translateMovement(object.movement) });
   }
 
   const artists = [...map.values()].sort((a, b) =>
