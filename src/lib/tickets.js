@@ -83,7 +83,7 @@ export async function fulfillCheckout(sessionId) {
   const stripe = getStripe();
   if (!stripe) return { error: "stripe-not-configured" };
 
-  const existing = getOrderByStripeSession(sessionId);
+  const existing = await getOrderByStripeSession(sessionId);
   if (existing) return { order: existing };
 
   let session;
@@ -117,7 +117,7 @@ export async function fulfillCheckout(sessionId) {
 
   let order;
   try {
-    order = createPaidOrder({
+    order = await createPaidOrder({
       reference,
       stripeSessionId: sessionId,
       userId,
@@ -129,7 +129,7 @@ export async function fulfillCheckout(sessionId) {
     });
   } catch {
     // A concurrent request may have fulfilled it first.
-    const again = getOrderByStripeSession(sessionId);
+    const again = await getOrderByStripeSession(sessionId);
     if (again) return { order: again };
     return { error: "fulfillment-failed" };
   }
@@ -137,7 +137,7 @@ export async function fulfillCheckout(sessionId) {
   try {
     const preview = await sendTicketsEmail(order);
     if (preview) {
-      setOrderEmailPreview(order.id, preview);
+      await setOrderEmailPreview(order.id, preview);
       order.email_preview_url = preview;
     }
   } catch {

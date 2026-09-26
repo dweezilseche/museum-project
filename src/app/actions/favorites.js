@@ -14,15 +14,15 @@ async function currentUserId() {
 export async function fetchFavorites() {
   const userId = await currentUserId();
   if (!userId) return [];
-  return listFavorites(userId);
+  return await listFavorites(userId);
 }
 
 export async function toggleFavorite(workId, shouldAdd) {
   const userId = await currentUserId();
   if (!userId) return { ok: false, error: "Not authenticated" };
 
-  if (shouldAdd) addFavorite(userId, String(workId));
-  else removeFavorite(userId, String(workId));
+  if (shouldAdd) await addFavorite(userId, String(workId));
+  else await removeFavorite(userId, String(workId));
 
   return { ok: true };
 }

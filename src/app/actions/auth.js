@@ -23,13 +23,13 @@ export async function registerUser(_prevState, formData) {
     return { error: "Password must be at least 6 characters." };
   }
 
-  if (getUserByEmail(email)) {
+  if (await getUserByEmail(email)) {
     return { error: "An account with this email already exists." };
   }
 
   try {
     const passwordHash = await bcrypt.hash(password, 10);
-    createUser({ email, name, passwordHash });
+    await createUser({ email, name, passwordHash });
     return { ok: true };
   } catch {
     return { error: "Could not create the account right now." };

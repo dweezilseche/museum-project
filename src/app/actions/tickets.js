@@ -55,7 +55,7 @@ export async function fetchMyOrders() {
   const id = session?.user?.id;
   if (!id) return [];
 
-  const orders = listOrdersByUser(Number(id));
+  const orders = await listOrdersByUser(Number(id));
   return Promise.all(
     orders.map(async (order) => ({
       ...order,
